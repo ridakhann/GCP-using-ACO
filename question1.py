@@ -149,10 +149,10 @@ def init_pheros(g):  # initialising pheromone matrix
     return phero_mat
 
 
-def colony():  # initilizing colony of ants
+def colony(alpha, beta):  # initilizing colony of ants
     ants = []
     for i in range(number_of_ants):
-        a = Ant(0.8, 0.8)
+        a = Ant(alpha, beta)
         ants.append(a.solution_init(g, colors))
     return ants
 
@@ -213,14 +213,16 @@ def algo(gr, numberants, iterations, alpha, beta, evap):
     phero_mat = init_pheros(gr)
     number_of_nodes = nx.number_of_nodes(gr)
     aver=[]
+    temp = []
     best=[]
 
     for i in range(iterations):
-        ants = colony()
+        ants = colony(alpha, beta)
         for ant in ants:
             ant.color_graph()
         evaporation()
         best_colors, best_sol = getbest()
+        temp.append(best_colors)
         if(colors_in_final == 0):
             colors_in_final = best_colors
             solution = best_sol
@@ -233,18 +235,18 @@ def algo(gr, numberants, iterations, alpha, beta, evap):
         best.append(colors_in_final)
     # summ=sum(best)
     # aver.append(best[0])
-    for i in range(len(best)):
-        aver.append(sum(best[:i+1])/(i+1))
+    for i in range(len(temp)):
+        aver.append(sum(temp[:i+1])/(i+1))
 
     return colors_in_final, solution, iterations_needed, best, aver
 g = graph('gcol1.txt')
 number_of_nodes = 0
 nodes = []
 number_of_ants = 0
-alpha =0.8
-beta=0.8
+alpha =0.9
+beta=0.5
 rho = 0.8
-numIterations=100
+numIterations=50
 phero_mat = np.ones((number_of_nodes, number_of_nodes), float)
 adjacency_mat = np.zeros((number_of_nodes, number_of_nodes), float)
 final_costs, final_solution, iterations_needed, best, aver = algo(g, 20, numIterations, alpha, beta, 0.8)
