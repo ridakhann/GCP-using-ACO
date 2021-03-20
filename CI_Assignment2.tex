@@ -47,7 +47,14 @@
 \par In order to solve the graph coloring problem, we used an implementation of the Ant Colony Optimization(ACO).
 To minimize the number of colors needed to color the graph while satisfying the condition that no two adjacent nodes should have the same color.
 \subsection{Problem Formulation}
-\par 
+In order to solve our graph coloring problem, we have initialized a list of colors that is the same length as the number of nodes in our graphs.
+The colors are represented as labels drawn from integers 1, 2, 3, ....n. For our ACO approach we first initialize a colony of ants, where each ant is an instance of class Ant containing attributes like:
+list of visited and unvisited nodes so that we can ensure that a node already colored will not be colored again by the ant, a dictionary that keeps track of the color assigned to each vertex, and a variable that stores the number of colors used in the solution. 
+\par Each of these ants independetly move through adjacent vertices while incrementally building a solution for the optimization problem. Meanwhile, they also deposit pheromone trails on favorable edges 
+to guide other ants in their search. 
+During the construction of their solution they make decisions based on pheromone matrix $(\tau)$ and desirability matrix $(\eta)$. The pheromone matrix is initialized with adjacent matrices having a 0 and non-adjacent edges having a 1. The desirability matrix uses the Degree of Saturation (DSATUR) where desirability of each node is proportional to the number of conflicts (neighbours having the same colour as itself).
+We used $\alpha$, $\beta$ and $\rho$ to indicate the relative importance of pheremone, the relative importance of the heuristic value and the evaporation rate, respectively. 
+These values are also used to calculate the probability of choosing the next node that the ant should travel to. During this process, after choosing a node, a tabu list is maintianed for this node where the colors of its neighbours are stored in order to ensure it follows the color constraints.
 \subsection{Results}
 Problem Formulation
 \subsection{Analysis}
