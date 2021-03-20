@@ -21,7 +21,9 @@ class Ant:
 
     def solution_init(self, g, colors, start=None):  # constructing solutions for each ant
         self.available_colors = sorted(colors.copy())
-        keys = [x for x in nodes]
+        keys = []
+        for x in nodes:
+            keys.append(x)
         for key in keys:
             self.assigned_colors[key] = None
 
@@ -36,14 +38,11 @@ class Ant:
 
         if len(self.visited) == 0:
             # assigning the smallest possible colour to the vertex if it is the first step
-            self.assign_color(self.start, self.available_colors[0])
-        return self
+            self.assigned_colors[self.start] = self.available_colors[0]
+            self.visited.append(self.start)
+            self.notvisited.remove(self.start)
 
-    def assign_color(self, node, color):  # assigning colour to a specified node
-        self.assigned_colors[node] = color
-        # adding node to the ant's tabu list so as to not go there again
-        self.visited.append(node)
-        self.notvisited.remove(node)
+        return self
 
     def color_graph(self):  # construction method, colouring graph
         tabu = []  # keep track of colours of neighbours to make sure not to colour the vertex same as its neighbor
@@ -59,13 +58,15 @@ class Ant:
             for k in self.available_colors:  # checking list of over all colours available
                 if (k not in tabu):
                     # assigning colour a colour that has not been restricted by the tabu list
-                    self.assign_color(next, k)
+                    self.assigned_colors[next] = k
+                    self.visited.append(next)
+                    self.notvisited.remove(next)
                     break
             # updating the total number of colours used
             self.colors_used = len(set(self.assigned_colors.values()))
 
     # calculating desiribility of a node based on the most number of conflicts a node has (degree of saturation)
-    def diff_color(self, node=None):
+    def desiribility(self, node=None):
         if node is None:  # case for the very first node
             node = self.start
         neighb = []  # list of neighbors
@@ -85,7 +86,7 @@ class Ant:
         candidates_possible = []
         for j in self.notvisited:
             vals.append(self.get_phero(self.start, j)**self.alpha *
-                        self.diff_color(j)**self.beta)
+                        self.desiribility(j)**self.beta)
             candidates.append(j)
         # summation = sum(vals)
         # for v in range(len(vals)):
@@ -123,13 +124,6 @@ def draw_graph(g, col_val):  # visualizing the graph and the final colours
     values = [col_val.get(node, 'green') for node in g.nodes()]
     nx.draw(g, pos, with_labels=True, node_color=values,
             edge_color='black', width=1, alpha=0.7)
-
-
-def initialize_colors(g):  # initially number of colours = number of nodes
-    colors = []
-    for c in range(number_of_nodes):
-        colors.append(c)
-    return colors
 
 
 def adjacency_matrix(g):  # constructing the adjacency matrix
@@ -177,7 +171,7 @@ def getbest():  # returns the best solution yet
     # update pheromones matrix
     # get pheremone trail of the best solution
     elite_phero = elite.get_phero_trail()
-    phero_mat = phero_mat + elite_phero  # update pheromone matrix by adding the two
+    phero_mat = phero_mat + elite_phero  # pheromone intensification according to best sol so far
     return elite.colors_used, elite.assigned_colors
 
 
@@ -209,9 +203,10 @@ def algo(gr, numberants, iterations, alpha, beta, evap):
     nodes.sort()
 
     adjacency_mat = adjacency_matrix(gr)
-    colors = initialize_colors(gr)
     phero_mat = init_pheros(gr)
     number_of_nodes = nx.number_of_nodes(gr)
+    for i in range(number_of_nodes):
+        colors.append(i)
     aver=[]
     temp = []
     best=[]
@@ -246,7 +241,7 @@ number_of_ants = 0
 alpha =0.9
 beta=0.5
 rho = 0.8
-numIterations=50
+numIterations=5
 phero_mat = np.ones((number_of_nodes, number_of_nodes), float)
 adjacency_mat = np.zeros((number_of_nodes, number_of_nodes), float)
 final_costs, final_solution, iterations_needed, best, aver = algo(g, 20, numIterations, alpha, beta, 0.8)
