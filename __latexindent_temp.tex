@@ -1,0 +1,75 @@
+\documentclass[a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage[final]{pdfpages}
+\usepackage{subfig}
+\graphicspath{ {./Images/} }
+\definecolor{mGreen}{rgb}{0,0.6,0}
+\definecolor{mGray}{rgb}{0.5,0.5,0.5}
+\definecolor{mPurple}{rgb}{0.58,0,0.82}
+\definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{CStyle}{
+    backgroundcolor=\color{backgroundColour},   
+    commentstyle=\color{mGreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{mGray},
+    stringstyle=\color{mPurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=C
+}
+
+
+
+\begin{document}
+
+\newcommand{\shellcmd}[1]{\\\indent\indent\texttt{\footnotesize\# #1}\\}
+
+\title{Computational Intelligence \\ Assignment 2}
+\author{Maheen Khan (mk04389) \\ Rida Zahid Khan (rk04364)}
+\date{\today}
+\maketitle
+\section{ACO for Graph Coloring Problem}
+\par In order to solve the graph coloring problem, we used an implementation of the Ant Colony Optimization(ACO).
+To minimize the number of colors needed to color the graph while satisfying the condition that no two adjacent nodes should have the same color.
+\subsection{Problem Formulation}
+\par 
+\subsection{Results}
+Problem Formulation
+\subsection{Analysis}
+\section{Know more about Optimization}
+\subsection{What is metaheuristic optimization?}
+\par Metaheuristic optimization 
+deals with optimization problems using metaheuristic algorithms.
+Metaheuristic optimization deals with optimization problems using metaheuristic algorithms. Metaheuristic optimization concerns more generalized, nonlinear optimization problems. These algorithms in most cases tend to be suitable for global
+optimization, though are not always successful or efficient.
+In stochastic algorithms, there is some randomness in the algorithm, i.e., the algorithm will usually reach a different solution every time the algorithm is executed, even though the same algorithm is run so they are not deterministic. In essence, randomization is an efficient component for global search algorithms.
+\par Algorithms with stochastic components were often referred to as heuristic in the past, though in recent times they are called metaheuristics. All modern nature-inspired algorithms are called metaheuristics (Glover 1986, Glover and Kochenberger 2003). Loosely speaking, heuristic means to find or to discover by trial and error. Here meta- means beyond or higher level, and metaheuristics generally perform better than simple heuristics. In addition, all metaheuristic algorithms use a certain tradeoff of randomization and local search. Quality solutions to difficult optimization problems can be found in a reasonable amount of time, but there is no guarantee that optimal solutions can be reached. 
+It is hoped that these algorithms work most of the time, but not all the time. Almost all metaheuristic algorithms tend to be suitable for global optimization.
+\par Metaheuristic algorithms have two major components, exploration(diversification) and exploitation (or intensification). Diversification means to generate diverse
+ solutions so as to explore the search space on a global scale, while intensification means to focus the search in a local region knowing that a current good solution
+  is found in this region. Rate of algorithm convergence improves when we strike a good balance between diversification and intensification in our selection process. This allows us to both to work towards the most optimum solution while exploring the search space to escape from local optimas and have diverse solutions. Both these factors help us achieve global optimality.
+\subsection{What are the situations 
+in which gradient-based optimization techniques do not work? }
+Optimization problems that are modelled by discontinuous functions cannot be modelled through gradient based techniques as hill climbing. Gradient-based optimization is also more challenging when it comes to problems
+ modelled by nonlinear, multimodal or multivariate functions.
+ \subsection{Briefly explain any one swarm-based algorithm 
+ that we have NOT discussed in the class.}
+ Bee algorithms are another class of metaheuristic algorithms, inspired by the foraging behaviour of bees. Honey bees live in a colony and they forage and store honey in their constructed colony. Honey bees can communicate by pheromone and `waggle dance'. For example, an alarming bee may release a chemical message (pheromone) to stimulate attack response in other bees. Furthermore, when bees find a good food source and bring it back to the hive, they will communicate the location of the food source by performing the waggle dance as a signaling system. They are aimed at recruiting more bees by using directional dancing with varying strength so as to communicate the direction and distance of the food source.
+\par For multiple food sources such as flower patches, studies show that a bee colony seems to be able to allocate forager bees among different flower patches so as to maximize their total nectar intake. Bee algorithms are more suitable for discrete and combinatorial optimization and have been applied in a wide range of applications.
+
+\end{document}

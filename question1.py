@@ -212,6 +212,8 @@ def algo(gr, numberants, iterations, alpha, beta, evap):
     colors = initialize_colors(gr)
     phero_mat = init_pheros(gr)
     number_of_nodes = nx.number_of_nodes(gr)
+    aver=[]
+    best=[]
 
     for i in range(iterations):
         ants = colony()
@@ -223,21 +225,38 @@ def algo(gr, numberants, iterations, alpha, beta, evap):
             colors_in_final = best_colors
             solution = best_sol
             iterations_needed = i+1
+            # aver.append(best_colors)
         elif(best_colors < colors_in_final):  # a new better solution appears swap it with current best
             colors_in_final = best_colors
             solution = best_sol
             iterations_needed = i+1
-    return colors_in_final, solution, iterations_needed
+        best.append(colors_in_final)
+    # summ=sum(best)
+    # aver.append(best[0])
+    for i in range(len(best)):
+        aver.append(sum(best[:i+1])/(i+1))
 
-
+    return colors_in_final, solution, iterations_needed, best, aver
 g = graph('gcol1.txt')
 number_of_nodes = 0
 nodes = []
 number_of_ants = 0
+alpha =0.8
+beta=0.8
 rho = 0.8
+numIterations=100
 phero_mat = np.ones((number_of_nodes, number_of_nodes), float)
 adjacency_mat = np.zeros((number_of_nodes, number_of_nodes), float)
-final_costs, final_solution, iterations_needed = algo(g, 20, 20, 0.8, 0.8, 0.8)
+final_costs, final_solution, iterations_needed, best, aver = algo(g, 20, numIterations, alpha, beta, 0.8)
 print(final_costs, final_solution, iterations_needed)
 draw_graph(g, final_solution)
+plt.show()
+
+iterations = range(numIterations)
+plt.plot(iterations, aver)
+plt.plot(iterations, best)
+plt.legend(["Average Fitness", "Best Fitness"])
+plt.title('Fitness Vs Iterations')
+plt.xlabel('Iterations')
+plt.ylabel('Fitness')
 plt.show()
